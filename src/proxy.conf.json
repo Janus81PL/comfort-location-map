@@ -1,0 +1,9 @@
+{
+    "iKomfortCoreAPI": {
+      "target": "https://localhost:44301",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  

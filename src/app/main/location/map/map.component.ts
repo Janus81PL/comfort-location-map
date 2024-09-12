@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ShopsManagement } from '../../../Services/shops-management.service';
+import { ShopsManagement } from '../../../Services/Management/shops-management.service';
 
 @Component({
   selector: 'app-map',

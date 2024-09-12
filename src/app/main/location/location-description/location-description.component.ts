@@ -1,7 +1,7 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { MapComponent } from '../map/map.component';
 
-import { ShopsManagement } from '../../../Services/shops-management.service';
+import { ShopsManagement } from '../../../Services/Management/shops-management.service';
 
 @Component({
   selector: 'app-location-description',
