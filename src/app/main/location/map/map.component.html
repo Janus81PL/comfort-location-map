@@ -3117,13 +3117,24 @@
 <path style=" stroke:none;fill-rule:evenodd;fill:rgb(91.372549%,96.470588%,99.215686%);fill-opacity:1;" d="M 807.367188 679.269531 L 818.695312 675.003906 "/>
 </g>
 
-@for(shop of shops; track shop.cx){
+@for(shop of storeWithoutAssignedLocation; track shop.cx){
   <circle [attr.cx]="shop.cx"
           [attr.cy]="shop.cy"
           [attr.r]="shop.size"
-          [attr.data-city]="shop.city"
+          [attr.data-city]="shop.address"
           [attr.fill]="shop.color"
-          (mouseover)="onMouseOver(shop.IdSklep)"
+          (mouseover)="onMouseOverUnassignedShop(shop.idSklep)"
+          (mouseleave)="onMouseLeave()"
+          class="point"/>
+}
+
+@for(shop of storeWithAssignedLocation; track shop.cx){
+  <circle [attr.cx]="shop.cx"
+          [attr.cy]="shop.cy"
+          [attr.r]="shop.size"
+          [attr.data-city]="shop.address"
+          [attr.fill]="shop.color"
+          (mouseover)="onMouseOver(shop.idSklep)"
           (mouseleave)="onMouseLeave()"
           class="point"/>
 }

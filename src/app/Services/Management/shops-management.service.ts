@@ -12,11 +12,11 @@ export class ShopsManagement {
     })
   }
 
-    getIdSklep(){
-        return this.idSklep();
-    }
+  getIdSklep(){
+    return this.idSklep();
+  }
 
-    setIdSklep(idSklep: number){
-        this.idSklep.set(idSklep)
-    }
+  setIdSklep(idSklep: number){
+    this.idSklep.set(idSklep)
+  }
 }

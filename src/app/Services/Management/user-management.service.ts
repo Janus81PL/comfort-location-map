@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { UserDto } from '../../dto/userDto';
 
 @Injectable({
@@ -6,15 +6,19 @@ import { UserDto } from '../../dto/userDto';
 })
 export class UserManagementService {
 
-  constructor() { }
+  private user = signal<UserDto | undefined>(undefined);
 
-  user: UserDto | undefined;
+  constructor() { 
+/*     effect(() => {
+      console.info("Effect: ", this.user())
+  }) */
+  }
 
   getUser() {
-    return this.user;
+    return this.user();
   }
 
   setUser(user: UserDto){
-    this.user = user;
+    this.user.set(user);
   }
 }

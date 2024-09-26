@@ -1,0 +1,33 @@
+export class DictSklepyDto {
+    constructor(
+        idSklep: number = 0,
+        idDictSklepyTyp: number = 0,
+        idDictSklepyRodzaj: number = 0,
+        idRegion: number = 0,
+        kodSAP: string = '',
+        mpk: string = '',
+        kodPocztowy: string = '',
+        miasto: string = '',
+        ulica: string = '',
+        eMailKierownik: string = '',
+        eMailPracownicy: string = '',
+        eMailProjektanci: string = '',
+        KierownikSklepu: string = '',
+        TelefonKierownika: string = '',
+        TelefonZCKierownika1: string = '',
+        TelefonZCKierownika2: string = '',
+        TelefonZCKierownika3: string = '',
+        TelefonPracownika1: string = '',
+        TelefonPracownika2: string = '',
+        TelefonPracownika3: string = '',
+        TelefonPracownika4: string = '',
+        TelefonPracownika5: string = '',
+        TelefonProjektant1: string = '',
+        TelefonProjektant2: string = '',
+        TelefonProjektant3: string = '',
+        TelefonPodstawowy: string = '',
+        TelefonStacjonarny: string = '',
+        Fax: string = '',
+        Aktywny: number = 0
+    ){}
+}

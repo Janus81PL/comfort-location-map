@@ -11,6 +11,12 @@ import { UserDto } from '../../dto/userDto';
 export class HeaderComponent {
   @Input() userData : UserDto | undefined;
 
+  constructor(){
+    effect(() => {
+
+    })
+  }
+
   RedirectToIKomfort(){
     window.location.replace('https://intranet.komfort.pl/');
   }

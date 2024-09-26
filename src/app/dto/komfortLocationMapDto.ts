@@ -4,5 +4,6 @@ export interface KomfortLocationMapDto {
     cx: number,
     cy: number,
     size: number,
+    color: string,
     address: string
 }

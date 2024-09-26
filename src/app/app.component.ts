@@ -8,7 +8,7 @@ import { IKomfortConnectionService } from './Services/Connections/ikomfort-conne
 import { ActivatedRoute } from '@angular/router';
 import { UserDto } from './dto/userDto';
 import { UserManagementService } from './Services/Management/user-management.service';
-import { GetUserData } from './Services/DbCRUD/DbRead/GetUserData';
+import { GetUserData } from './Services/DbCRUD/DbRead/RUserData';
 
 @Component({
   selector: 'app-root',
@@ -30,15 +30,23 @@ export class AppComponent {
   user!: UserDto;
 
   ngOnInit(): void {
-      this.user = this.getUserData.Get();
-      this.userManagementService.setUser(this.user);
+      this.getUserData.Get()
+        .then((r: UserDto) => {
+          this.userManagementService.setUser(r)
+          this.user = r;
+        })
+        //W przypadku braku połączenia ładowany jest użytkownik testowy!!!
+        .catch((e: UserDto) => {
+          this.userManagementService.setUser(e);
+          this.user = e;
+        });
 
     //Pobranie parametru z linku aplikacji:
     //http://localhost:4200/?login=%22pawelka%22
 
-    this.route.queryParams.subscribe(params => {
+/*     this.route.queryParams.subscribe(params => {
       this.login = params['login'];
-    });
+    }); */
 
   }
 }
