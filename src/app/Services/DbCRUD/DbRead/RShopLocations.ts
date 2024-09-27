@@ -22,6 +22,7 @@ export class GetShopLocations{
                 },
                 error: (error) => {
                     console.error("Nie udało się pobrać listy lokalizacji: ", error)
+                    reject(error)
                 }
             });
         });

@@ -4,6 +4,7 @@ import { MapComponent } from '../map/map.component';
 import { ShopsManagement } from '../../../Services/Management/shops-management.service';
 import { DictSklepyDto } from '../../../dto/dictSklepyDto';
 import { RShopData } from '../../../Services/DbCRUD/DbRead/RShopData';
+import { DictRegionDto } from '../../../dto/dictRegionyDto';
 
 @Component({
   selector: 'app-location-description',
@@ -16,24 +17,31 @@ export class LocationDescriptionComponent {
   idSklep = 0;
   shop!: DictSklepyDto;
 
+  regions!: DictRegionDto;
+
   constructor(
     private shopsManagement: ShopsManagement,
     private rShopData: RShopData
-    ) {
-    effect(() => {
-      this.idSklep = this.shopsManagement.getIdSklep();
+    )
+    {
+      effect(() => {
+        this.idSklep = this.shopsManagement.getIdSklep();
 
-      if(this.shopsManagement.getIdSklep() > 0) {
-        this.rShopData.Get(this.shopsManagement.getIdSklep())
-          .then((result) => {
-            console.info("result: RShopData => ", result);
-          })
-          .catch((error) => {
-            console.error("this.rShopData.Get(): ", error)
-          })
-      } else {
+        if(this.shopsManagement.getIdSklep() > 0) {
+          this.rShopData.Get(this.shopsManagement.getIdSklep())
+            .then((result) => {
+              this.shop = result;
+            })
+            .catch((error) => {
+              console.error("this.rShopData.Get(): ", error)
+            })
+        } else {
+          this.shop = new DictSklepyDto();
+        }
+      })
+  }
 
-      }
-    })
+  ngOnInit(): void{
+
   }
 }
