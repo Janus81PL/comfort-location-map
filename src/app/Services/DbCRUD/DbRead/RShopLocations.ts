@@ -15,7 +15,7 @@ export class GetShopLocations{
         return new Promise<KomfortLocationMapDto[]>((resolve, reject) => {
             this.ikomfortApiConnectionService.getShopLocations().subscribe({
                 complete: () => {
-                    console.info("Lokalizacje sklepów pobrane.");
+/*                     console.info("Lokalizacje sklepów pobrane."); */
                 },
                 next: (result: KomfortLocationMapDto[]) => {
                     resolve(result)

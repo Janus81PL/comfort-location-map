@@ -12,10 +12,10 @@ export class RDictSklepyRodzaj {
     ){}
 
     public Get(){
-        return new Promise((resolve, reject) => {
+        return new Promise<DictSklepyRodzajDto[]>((resolve, reject) => {
             this.iKomfortApiConnectionService.getDictSklepyRodzaj().subscribe({
                 complete: () => {
-                    console.info("Lista rodzajów sklepów została pobrana.")
+/*                     console.info("Lista rodzajów sklepów została pobrana.") */
                 },
                 next: (result) => {
                     resolve(result);

@@ -1,0 +1,41 @@
+<h2 mat-dialog-title style="text-align: center;"> Lokalizacja sklepu: {{data.address}} </h2>
+<mat-dialog-content>
+    <div class="row">
+        <div class="offset-2 col-3"> Kolor </div>
+        <div class="col-5">
+            <select
+            class="form-control form-control-sm mt-1"
+            [(ngModel)]="data.color"
+            (ngModelChange)="ChangeColor()">
+                <option :value="black"> Czarny </option>
+                <option :value="blue"> Niebieski </option>
+                <option :value="red"> Czrwony </option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-2 col-3"> Oś X </div>
+        <div class="col-5">
+            <input class="form-control form-control-sm mt-1" type="number" min="0" max="1200" [(ngModel)]="data.cx">
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-2 col-3"> Oś Y </div>
+        <div class="col-5">
+            <input class="form-control form-control-sm mt-1" type="number" min="0" max="800" [(ngModel)]="data.cy">
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-2 col-3"> Wielkość </div>
+        <div class="col-5">
+            <input class="form-control form-control-sm mt-1" type="number" min="3" max="15" [(ngModel)]="data.size">
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions  style="justify-content: space-around;">
+    <button class="w-25 btn btn-outline-danger btn-sm" mat-button mat-dialog-close> Anuluj </button>
+
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button class="w-25 btn btn-outline-primary btn-sm" mat-button [mat-dialog-close]="true"> Zapisz </button>
+</mat-dialog-actions>

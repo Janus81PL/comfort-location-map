@@ -1,1 +1,182 @@
-<p> Odebrany sygnał: {{idSklep}}</p>
+<div class="row">
+    <div class="offset-2 col-8">
+        <select
+        class="form-control form-control-sm mt-1"
+        [(ngModel)]="shopsRequest.idDictSklepyRodzaj"
+        (ngModelChange)="ChangeShopsRequest()">
+        <option :value="0"> ...własne / franczyza... </option>
+            @for(typSklepu of typySklepow; track typSklepu.idDictSklepyTyp){
+                <option [value]="typSklepu.idDictSklepyTyp"> {{typSklepu.nazwa}} </option>
+            }
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="offset-2 col-8">
+        <select
+        class="form-control form-control-sm mt-1"
+        [(ngModel)]="shopsRequest.idDictSklepyRodzaj"
+        (ngModelChange)="ChangeShopsRequest()">
+        <option :value="0"> ...format... </option>
+            @for(rodzaj of rodzajeSklepow; track rodzaj.idDictSklepyRodzaj){
+                <option [value]="rodzaj.idDictSklepyRodzaj"> {{rodzaj.opis}} </option>
+            }
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="offset-2 col-8">
+        <select
+        class="form-control form-control-sm mt-1"
+        [(ngModel)]="shopsRequest.idRegion"
+        (ngModelChange)="ChangeShopsRequest()">
+        <option :value="0"> ...region... </option>
+            @for(region of regions; track region.idRegion){
+                <option [value]="region.idRegion"> {{region.opis}} </option>
+            }
+        </select>
+    </div>
+</div>
+
+<!-- Informacje o sklepie -->
+@if(shop.miasto.length > 0) {
+    <div class="row mt-5">
+        <div class="offset-1 col-10">
+            <table class="table table-sm"> 
+                <thead>
+                    <tr>
+                        <th colspan="2" style="text-align: center;"> Informacje o sklepie </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> Adres: </td>
+                        <td> {{shop.kodPocztowy}} {{shop.miasto}} {{shop.ulica}} </td>
+                    </tr>
+                    <tr>
+                        <td> Format: </td>
+                        <td> {{shop.dictSklepyRodzaj}} </td>
+                    </tr>
+                    <tr>
+                        <td> Kierownik sklepu: </td>
+                        <td> {{shop.kierownikSklepu}}  </td>
+                    </tr>
+                    <tr>
+                        <td> eMail kierownika: </td>
+                        <td> {{shop.eMailKierownik}} </td>
+                    </tr>
+                    <tr>
+                        <td> eMail pracowników: </td>
+                        <td> {{shop.eMailPracownicy}} </td>
+                    </tr>
+                    @if(shop.eMailProjektanci != null && shop.eMailProjektanci.length > 3){
+                        <tr>
+                            <td> eMail projektanci: </td>
+                            <td> {{shop.eMailProjektanci}} </td>
+                        </tr>
+                    }
+                                <!-- Telefon kierownika -->
+                    @if(shop.telefonKierownika != null){
+                        <tr>
+                            <td> Tel. kierownika: </td>
+                            <td> {{shop.telefonKierownika}}  </td>
+                        </tr>
+                    }
+                                <!-- Teleofny zastepcow -->
+                    @if(shop.telefonZCKierownika1 != null){
+                        <tr>
+                            <td> Tel. z-cy: </td>
+                            <td> {{shop.telefonZCKierownika1}}  </td>
+                        </tr>
+                    }
+                    @if(shop.telefonZCKierownika2 != null){
+                        <tr>
+                            <td> Tel. z-cy: </td>
+                            <td> {{shop.telefonZCKierownika2}}  </td>
+                        </tr>
+                    }
+                    @if(shop.telefonZCKierownika3 != null){
+                        <tr>
+                            <td> Tel. z-cy: </td>
+                            <td> {{shop.telefonZCKierownika3}}  </td>
+                        </tr>
+                    }
+                                <!-- Telefony pracownikow -->
+                    @if(shop.telefonPodstawowy != null){
+                        <tr>
+                            <td> Tel. podstawowy: </td>
+                            <td> {{shop.telefonPodstawowy}}   </td>
+                        </tr>
+                    }
+                    @if(shop.telefonPracownika1 != null){
+                        <tr>
+                            <td> Tel. </td>
+                            <td> {{shop.telefonPracownika1}}   </td>
+                        </tr>
+                    }
+                    @if(shop.telefonPracownika2 != null){
+                        <tr>
+                            <td> Tel. </td>
+                            <td> {{shop.telefonPracownika2}}   </td>
+                        </tr>
+                    }
+                    @if(shop.telefonPracownika3 != null){
+                        <tr>
+                            <td> Tel. </td>
+                            <td> {{shop.telefonPracownika3}}   </td>
+                        </tr>
+                    }
+                    @if(shop.telefonPracownika4 != null){
+                        <tr>
+                            <td> Tel. </td>
+                            <td> {{shop.telefonPracownika4}}   </td>
+                        </tr>
+                    }
+                    @if(shop.telefonPracownika5 != null){
+                        <tr>
+                            <td> Tel. </td>
+                            <td> {{shop.telefonPracownika5}}   </td>
+                        </tr>
+                    }
+<!--             Telefony projektantów -->
+                    @if(shop.telefonProjektant1 != null){
+                        <tr>
+                            <td> Tel. projektantów: </td>
+                            <td> {{shop.telefonProjektant1}}   </td>
+                        </tr>
+                    }
+                    @if(shop.telefonProjektant2 != null){
+                        <tr>
+                            <td> Tel. projektantów: </td>
+                            <td> {{shop.telefonProjektant2}}   </td>
+                        </tr>
+                    }   
+                    @if(shop.telefonProjektant3 != null){
+                        <tr>
+                            <td> Tel. projektantów: </td>
+                            <td> {{shop.telefonProjektant3}}   </td>
+                        </tr>
+                    } 
+                    @if(shop.fax != null && shop.fax.length > 3){
+                        <tr>
+                            <td> Fax: </td>
+                            <td> {{shop.fax}}   </td>
+                        </tr>
+                    }    
+                    <tr>
+                        <td> Kod SAP: </td>
+                        <td> {{shop.kodSAP}}   </td>
+                    </tr>
+                    <tr>
+                        <td> MPK: </td>
+                        <td> {{shop.mpk}}   </td>
+                    </tr>   
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <p class="text-danger text-center" style="font-size: 12px;">
+        Uprzejmie informujemy, że dane prezentowane w serwisie są importowane z SAP.
+    </p>
+}

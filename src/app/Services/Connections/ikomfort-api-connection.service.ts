@@ -15,6 +15,7 @@ export class IkomfortApiConnectionService {
 
   constructor(private http: HttpClient) { }
 
+  //GET
   getShopLocations(){
     return this.http
       .get<KomfortLocationMapDto[]>(
@@ -33,7 +34,7 @@ export class IkomfortApiConnectionService {
   getDictRegiony(){
     return this.http
       .get<DictRegionDto[]>(
-        environment.pathAPI + 'API/KomfortLocationsMap/GetRegiony/'
+        environment.pathAPI + 'API/KomfortLocationsMap/GetRegions/'
       )
   }
 
@@ -49,5 +50,11 @@ export class IkomfortApiConnectionService {
       .get<DictSklepyTypDto[]>(
         environment.pathAPI + 'API/KomfortLocationsMap/GetSklepyTyp/'
       )
+  }
+
+  //POST
+  postShopLocations(location: KomfortLocationMapDto){
+    return this.http
+      .post(environment.pathAPI + 'API/KomfortLocationsMap/UpdateShopLocation/', location)
   }
 }

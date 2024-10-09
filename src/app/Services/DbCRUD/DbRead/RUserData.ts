@@ -15,7 +15,7 @@ export class GetUserData{
       return new Promise<UserDto>((resolve, reject) => {
         this.iKomfortConnection.getUserData().subscribe({
           complete: () => {
-            console.info("GetUserData.Get(): Dane zalogowanego użytkownika pobrane.")
+/*             console.info("GetUserData.Get(): Dane zalogowanego użytkownika pobrane.") */
           },
           next: (result: any) => {
             resolve(result);

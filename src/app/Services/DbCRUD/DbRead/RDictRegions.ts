@@ -12,10 +12,10 @@ export class RDictRegions{
     ){}
 
     public Get(){
-        return new Promise((resolve, reject) => {
+        return new Promise<DictRegionDto[]>((resolve, reject) => {
             this.ikomfortApiConnectionService.getDictRegiony().subscribe({
                 complete: () => {
-                    console.info("Lista regionów pobrana.");
+/*                     console.info("Lista regionów pobrana."); */
                 },
                 next: (result: DictRegionDto[]) => {
                     resolve(result);
