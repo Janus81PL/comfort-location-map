@@ -29,8 +29,6 @@ export class LocationDescriptionComponent {
   typySklepow!: DictSklepyTypDto[];
 
   idRegion = 0;
-
-  test: ShopsRequest | undefined = new ShopsRequest();
   public shopsRequest = new ShopsRequest();
 
   constructor(
@@ -46,10 +44,8 @@ export class LocationDescriptionComponent {
 
         if(this.shopsManagement.getIdSklep() > 0) {
           this.rShopData.Get(this.shopsManagement.getIdSklep())
-            .then((result) => {
-              
+            .then((result) => {          
               this.shop = result;
-              console.info("this.shop: ", this.shop);
             })
             .catch((error) => {
               console.error("this.rShopData.Get(): ", error)

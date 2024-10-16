@@ -1,12 +1,14 @@
-export interface KomfortLocationMapDto {
-    idLocation: number,
-    idSklep: number,
-    idRegion: number,
-    idDictSklepyTyp: number,
-    idDictSklepyRodzaj: number,
-    cx: number,
-    cy: number,
-    size: number,
-    color: string,
-    address: string
+export class KomfortLocationMapDto {
+    constructor(
+        public idLocation: number = 0,
+        public idSklep: number = 0,
+        public idRegion: number = 0,
+        public idDictSklepyTyp: number = 0,
+        public idDictSklepyRodzaj: number = 0,
+        public cx: number = 0,
+        public cy: number = 0,
+        public size: number = 0,
+        public color: string = "",
+        public address: string = ""
+    ){}
 }

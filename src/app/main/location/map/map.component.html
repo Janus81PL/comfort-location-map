@@ -3125,14 +3125,14 @@
           [attr.fill]="shop.color"
           
           (click)="onMouseClick($event, shop.idSklep)"
-          (dblclick)="onMouseDbClick(shop.idSklep)"
+          (contextmenu)="onMouseRButtonClick($event, shop.idSklep)"
 
           (mouseover)="onMouseOver(shop.idSklep)"
           (mouseleave)="onMouseLeave()"
           class="point"/>
 }
 
-@for(shop of storeWithAssignedLocation; track shop.cx){
+@for(shop of storeWithAssignedLocationToDisplay; track shop.cx){
   <circle [attr.cx]="shop.cx"
           [attr.cy]="shop.cy"
           [attr.r]="shop.size"
@@ -3140,7 +3140,7 @@
           [attr.fill]="shop.color"
 
           (click)="onMouseClick($event, shop.idSklep)"
-          (dblclick)="onMouseDbClick(shop.idSklep)"
+          (contextmenu)="onMouseRButtonClick($event, shop.idSklep)"
 
           (mouseover)="onMouseOver(shop.idSklep)"
           (mouseleave)="onMouseLeave()"
@@ -3149,8 +3149,3 @@
           class="point"/>
 }
 </svg>
-
-<!-- Tooltip -->
-<div class="tooltip" [ngStyle]="{'display': 'block', 'left.px': 100, 'top.px': 50}">
-  {{ tooltipText }} Hello from tooltip
-</div>

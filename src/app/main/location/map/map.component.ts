@@ -26,73 +26,143 @@ export class MapComponent {
     public dialog: MatDialog
   ) {
     effect(() => {
-      this.SortStoresWithAssignedLocationByParams(this.shopsManagement.getShopRequest());
+      this.SortStoresWithAssignedLocationByParams(this.storeWithAssignedLocation, this.shopsManagement.getShopRequest())
+        .then((r) => {
+          this.storeWithAssignedLocationToDisplay = r as KomfortLocationMapDto[];
+        })
+        .catch((e) => {
+          console.error(e);
+        })
     })
   }
 
-  j: number = 1;
-  cy: number = 20;
-
   storeWithoutAssignedLocation!: KomfortLocationMapDto[];
 
-  storeWithAssignedLocation!: KomfortLocationMapDto[];
-  storeWithAssignedLocationToDisplay!: KomfortLocationMapDto[];
+  public storeWithAssignedLocation!: KomfortLocationMapDto[];
+  public storeWithAssignedLocationToDisplay!: KomfortLocationMapDto[];
 
   selectedStore: KomfortLocationMapDto | undefined
 
-  tooltipText: string = '';   // Zawartość dymka
-  tooltipX: number = 0;       // Pozycja X dymka
-  tooltipY: number = 0;       // Pozycja Y dymka
-  tooltipVisible: boolean = false;  // Flaga, czy dymek jest widoczny
-
   ngOnInit(): void {
-    this.getShopLocations.Get()
-      .then((result: KomfortLocationMapDto[]) => {
-        this.storeWithAssignedLocation = result.filter(a => a.cx != 0)
-        this.storeWithoutAssignedLocation = result.filter(a => a.cx == 0)
+    this.ReloadShops();
+  }
 
-        for(let i = 0; i < this.storeWithoutAssignedLocation.length; i++){
-          if(this.j > 30){
-            this.j = 1;
-            this.cy = this.cy + 20;
+  GetStoresWithAssignedLocation(fullStoresList: KomfortLocationMapDto[]){
+    return new Promise((resolve, reject) => {
+      try{
+        let storeWithAssignedLocation = [] as KomfortLocationMapDto[];
+        storeWithAssignedLocation = fullStoresList.filter(a => a.cx != 0)
+        resolve(storeWithAssignedLocation);
+      } catch(err){
+        reject(err);
+      }
+    })
+  }
+
+  GetStoresWithoutAssignedLocation(fullStoresList: KomfortLocationMapDto[]){
+    return new Promise((resolve, reject) => {
+      try{
+        let j: number = 1;
+        let cy: number = 20;
+        let storeWithoutAssignedLocation = [] as KomfortLocationMapDto[];
+
+        storeWithoutAssignedLocation = fullStoresList.filter(a => a.cx == 0)
+
+        for(let i = 0; i < storeWithoutAssignedLocation.length; i++){
+          cy = 20;
+        }
+
+        for(let i = 0; i < storeWithoutAssignedLocation.length; i++){
+          if(j > 30){
+            j = 1;
+            cy = cy + 20;
           }
 
-          this.storeWithoutAssignedLocation[i].cx = this.j * 20;
-          this.storeWithoutAssignedLocation[i].cy = this.cy;
+          storeWithoutAssignedLocation[i].cx = j * 20;
+          storeWithoutAssignedLocation[i].cy = cy;
 
-          this.j++;
+          j++;
         }
+        resolve(storeWithoutAssignedLocation);
+      } catch(err){
+        reject(err);
+      }
+    })
+  }
+
+  private ReloadShops(){
+    this.getShopLocations.Get()
+      .then((result: KomfortLocationMapDto[]) => {
+
+        this.GetStoresWithoutAssignedLocation(result)
+          .then((r) => {
+            this.storeWithoutAssignedLocation = r as KomfortLocationMapDto[];
+          })
+          .catch((e) => {
+            console.error(e);
+          })
+
+        this.GetStoresWithAssignedLocation(result)
+          .then((r) => {
+
+            this.storeWithAssignedLocation = r as KomfortLocationMapDto[];
+
+            this.SortStoresWithAssignedLocationByParams(r as KomfortLocationMapDto[], this.shopsManagement.getShopRequest())
+              .then((r) => {
+                this.storeWithAssignedLocationToDisplay = r as KomfortLocationMapDto[];
+              })
+              .catch((e) => {
+                console.error(e);
+              })
+          })
+          .catch((e) => {
+            console.error(e);        
+          })
       })
       .catch((e: any) => {
         console.error("getShopLocations.Get(): ", e);
       })
   }
 
-  private SortStoresWithAssignedLocationByParams(request: ShopsRequest | undefined){
+  private SortStoresWithAssignedLocationByParams(fullStoresList: KomfortLocationMapDto[], request: ShopsRequest | undefined){
+    return new Promise((resolve, reject) => {
 
-    this.storeWithAssignedLocationToDisplay = []
+      let storeWithAssignedLocationToDisplay = [] as KomfortLocationMapDto[];
 
-    try{
-      if(request != undefined){
-        console.info("request: ", request);
+      if(fullStoresList != undefined){
+        try{
+          if(request != undefined){
+            if(request.idRegion != 0){
+              let testList = [] as KomfortLocationMapDto[]
 
-        if(request!.idRegion != 0) {
-          this.storeWithAssignedLocationToDisplay = this.storeWithAssignedLocation.filter(a => a.idRegion == request!.idRegion)
-        } else {
-          this.storeWithAssignedLocationToDisplay = this.storeWithAssignedLocation;
+              testList = JSON.parse(JSON.stringify(fullStoresList));
+              storeWithAssignedLocationToDisplay = testList.filter(a => a.idRegion == request.idRegion)
+                .map(a => ({idLocation: a.idLocation
+                  , idSklep: a.idSklep
+                  ,idRegion: a.idRegion
+                  ,idDictSklepyTyp: a.idDictSklepyTyp
+                  ,idDictSklepyRodzaj: a.idDictSklepyRodzaj
+                  ,cx: a.cx
+                  ,cy: a.cy
+                  ,size: a.size
+                  ,color: a.color,
+                  address: a.address
+                }))
+
+              console.table(testList)
+              console.table(storeWithAssignedLocationToDisplay)
+            } else {
+              storeWithAssignedLocationToDisplay = fullStoresList;
+            }         
+          }
+          resolve(storeWithAssignedLocationToDisplay);
+        } catch(err) {
+          reject(err);
         }
-  
-        if(request!.idDictSklepyTyp != 0){
-          this.storeWithAssignedLocationToDisplay = this.storeWithAssignedLocationToDisplay.filter(a => a.idDictSklepyTyp == request!.idDictSklepyTyp)
-        }
-  
-        if(request!.idDictSklepyRodzaj != 0){
-          this.storeWithAssignedLocationToDisplay = this.storeWithAssignedLocationToDisplay.filter(a => a.idDictSklepyRodzaj == request!.idDictSklepyRodzaj)
-        }
+      } else {
+        resolve(storeWithAssignedLocationToDisplay);
       }
-    } catch(err) {
-      console.error("SortStoresWithAssignedLocationByParams(): ", err);
-    }
+    })
   }
 
   onMouseOver(idSklep: number){
@@ -113,33 +183,53 @@ export class MapComponent {
   onMouseClick(event: MouseEvent, idSklep: number) : void {
     if(this.selectedStore == undefined) {
       this.selectedStore = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
+      if(this.selectedStore === undefined)
+      {
+        this.selectedStore = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
+      }
     } else {
       this.uShopLocations.Post(this.selectedStore)
-        .then((r) => {
+        .then((r: any) => {
           this.selectedStore = undefined
+          this.ReloadShops();
         })
-        .catch((e) => {
+        .catch((e: any) => {
           alert("Coś poszło nie tak: " + e.toString())
         })
     }
-
-    console.info(this.selectedStore);
   }
 
-  onMouseDbClick(idSklep: number) : void {
-    console.info("onUnassignedShopClick: ", idSklep)
+  onMouseRButtonClick(event: Event, idSklep: number) : void {
+    event.preventDefault();
+    let data = undefined;
 
-    let dialogRef = this.dialog.open(EditStoreLocationComponent, {
-      height: '300px',
-      width: '600px',
-      position: {right: '20px'},
-      data: this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
-    });
+    data = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
 
-    dialogRef.afterClosed().subscribe(
-      result => {
-        console.info("result: ", result);
-      }
-    )
+    if(data === undefined)
+      data = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
+
+    if(data !== undefined) {
+      let dialogRef = this.dialog.open(EditStoreLocationComponent, {
+        height: '300px',
+        width: '600px',
+        position: {right: '20px'},
+        data: data
+      });
+
+      dialogRef.afterClosed().subscribe(
+        result => {
+          if(result !== null){
+            this.uShopLocations.Post(result)
+            .then((r: any) => {
+              this.selectedStore = undefined
+              this.ReloadShops();
+            })
+            .catch((e: any) => {
+              alert("Coś poszło nie tak: " + e.toString())
+            })
+          }
+        }
+      )
+    }
   }
 }

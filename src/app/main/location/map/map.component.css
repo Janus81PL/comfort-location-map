@@ -1,3 +1,13 @@
 .point{
     cursor: crosshair;
 }
+
+.pop-up-confirm {
+    background-color: lightgreen;
+    color: white
+}
+
+.pop-up-alert {
+    background-color: red;
+    color: white;
+}

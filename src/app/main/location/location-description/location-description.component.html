@@ -2,9 +2,9 @@
     <div class="offset-2 col-8">
         <select
         class="form-control form-control-sm mt-1"
-        [(ngModel)]="shopsRequest.idDictSklepyRodzaj"
+        [(ngModel)]="shopsRequest.idDictSklepyTyp"
         (ngModelChange)="ChangeShopsRequest()">
-        <option :value="0"> ...własne / franczyza... </option>
+        <option :value="0"> ...własne/franczyza... </option>
             @for(typSklepu of typySklepow; track typSklepu.idDictSklepyTyp){
                 <option [value]="typSklepu.idDictSklepyTyp"> {{typSklepu.nazwa}} </option>
             }

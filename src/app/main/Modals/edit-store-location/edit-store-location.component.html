@@ -10,6 +10,7 @@
                 <option :value="black"> Czarny </option>
                 <option :value="blue"> Niebieski </option>
                 <option :value="red"> Czrwony </option>
+                <option :value="yellow"> Żółty </option>
             </select>
         </div>
     </div>
@@ -34,8 +35,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions  style="justify-content: space-around;">
-    <button class="w-25 btn btn-outline-danger btn-sm" mat-button mat-dialog-close> Anuluj </button>
+    <button class="w-25 btn btn-outline-danger btn-sm" mat-button [mat-dialog-close]="null"> Anuluj </button>
 
     <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-    <button class="w-25 btn btn-outline-primary btn-sm" mat-button [mat-dialog-close]="true"> Zapisz </button>
+    <button class="w-25 btn btn-outline-primary btn-sm" mat-button [mat-dialog-close]="data"> Zapisz </button>
 </mat-dialog-actions>
