@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditStoreLocationComponent } from '../../Modals/edit-store-location/edit-store-location.component';
 import { UShopLocations } from '../../../Services/DbCRUD/DbUpdate/UShopLocations'
 
+import { MatTableDataSource } from '@angular/material/table';
+
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -28,7 +30,7 @@ export class MapComponent {
     effect(() => {
       this.SortStoresWithAssignedLocationByParams(this.storeWithAssignedLocation, this.shopsManagement.getShopRequest())
         .then((r) => {
-          this.storeWithAssignedLocationToDisplay = r as KomfortLocationMapDto[];
+          this.storeWithAssignedLocationToDisplay = r;
         })
         .catch((e) => {
           console.error(e);
@@ -124,7 +126,7 @@ export class MapComponent {
       })
   }
 
-  private SortStoresWithAssignedLocationByParams(fullStoresList: KomfortLocationMapDto[], request: ShopsRequest | undefined){
+  private SortStoresWithAssignedLocationByParams(fullStoresList: KomfortLocationMapDto[], request: ShopsRequest | undefined)  : Promise<KomfortLocationMapDto[]>{
     return new Promise((resolve, reject) => {
 
       let storeWithAssignedLocationToDisplay = [] as KomfortLocationMapDto[];
@@ -148,9 +150,6 @@ export class MapComponent {
                   ,color: a.color,
                   address: a.address
                 }))
-
-              console.table(testList)
-              console.table(storeWithAssignedLocationToDisplay)
             } else {
               storeWithAssignedLocationToDisplay = fullStoresList;
             }         
