@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, output, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./header/header/header.component";
 import { ManagementComponent } from "./main/management/management.component";
@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserDto } from './dto/userDto';
 import { UserManagementService } from './Services/Management/user-management.service';
 import { GetUserData } from './Services/DbCRUD/DbRead/RUserData';
+import { SpinnerManagementService } from './Services/Management/spinner-management.service';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +19,18 @@ import { GetUserData } from './Services/DbCRUD/DbRead/RUserData';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  public spinnerStatus: boolean = false;
+
   constructor(
     private getUserData: GetUserData,
     private userManagementService: UserManagementService,
-    private route: ActivatedRoute
-    ){}
+    private route: ActivatedRoute,
+    private spinnerManagementService: SpinnerManagementService
+    ){
+      effect(() => {
+        this.spinnerStatus = spinnerManagementService.GetSpinnerStatus();
+      })
+    }
 
   title = 'comfort-location-map';
   login = '';
@@ -47,6 +55,14 @@ export class AppComponent {
 /*     this.route.queryParams.subscribe(params => {
       this.login = params['login'];
     }); */
+
+  }
+
+  SpinnerShow(): void {
+
+  }
+
+  SpinnerHide(){
 
   }
 }

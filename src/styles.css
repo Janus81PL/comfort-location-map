@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; overflow: hidden; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; min-width: 1650px;}
 
 ::ng-deep .pop-up-success {
     border-radius: 10px 10px;
@@ -13,4 +13,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-radius: 10px 10px;
     background-color: red !important;
     color: white;
+}
+
+.spiner-center {
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8); /* Opcjonalne, dla efektu rozjaśnienia */
+    z-index: 1000;
 }

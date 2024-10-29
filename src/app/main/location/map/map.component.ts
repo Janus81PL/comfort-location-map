@@ -10,6 +10,7 @@ import { EditStoreLocationComponent } from '../../Modals/edit-store-location/edi
 import { UShopLocations } from '../../../Services/DbCRUD/DbUpdate/UShopLocations'
 
 import { MatTableDataSource } from '@angular/material/table';
+import { SpinnerManagementService } from '../../../Services/Management/spinner-management.service';
 
 @Component({
   selector: 'app-map',
@@ -24,20 +25,28 @@ export class MapComponent {
     private shopsManagement: ShopsManagement,
     private getShopLocations: GetShopLocations,
     private uShopLocations: UShopLocations,
+    private spinnerManagementService: SpinnerManagementService,
 
     public dialog: MatDialog
   ) {
     effect(() => {
+      this.spinnerManagementService.SpinnerOn();
+
       this.SortStoresWithAssignedLocationByParams(this.storeWithAssignedLocation, this.shopsManagement.getShopRequest())
-        .then((r) => {
-          this.storeWithAssignedLocationToDisplay = r;
+        .then((r: KomfortLocationMapDto[]) => {
+          this.storeWithAssignedLocationToDisplay = [] as KomfortLocationMapDto[]
+
+          setTimeout(() => {
+            this.storeWithAssignedLocationToDisplay = r;
+            this.spinnerManagementService.SpinnerOff()
+          }, 500);
         })
         .catch((e) => {
           console.error(e);
+          this.spinnerManagementService.SpinnerOff()
         })
-    })
+    }, {allowSignalWrites: true})
   }
-
   storeWithoutAssignedLocation!: KomfortLocationMapDto[];
 
   public storeWithAssignedLocation!: KomfortLocationMapDto[];
@@ -131,14 +140,14 @@ export class MapComponent {
 
       let storeWithAssignedLocationToDisplay = [] as KomfortLocationMapDto[];
 
+      console.info("fullStoresList: ", fullStoresList.length);
+      console.info("request: ", request);
+
       if(fullStoresList != undefined){
         try{
           if(request != undefined){
             if(request.idRegion != 0){
-              let testList = [] as KomfortLocationMapDto[]
-
-              testList = JSON.parse(JSON.stringify(fullStoresList));
-              storeWithAssignedLocationToDisplay = testList.filter(a => a.idRegion == request.idRegion)
+              storeWithAssignedLocationToDisplay = fullStoresList.filter(a => a.idRegion == request.idRegion)
                 .map(a => ({idLocation: a.idLocation
                   , idSklep: a.idSklep
                   ,idRegion: a.idRegion
