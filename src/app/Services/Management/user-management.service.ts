@@ -1,5 +1,6 @@
 import { effect, Injectable, signal } from '@angular/core';
 import { UserDto } from '../../dto/userDto';
+import { UserRequestDto } from '../../dto/userRequestDto';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +8,19 @@ import { UserDto } from '../../dto/userDto';
 export class UserManagementService {
 
   private user = signal<UserDto | undefined>(undefined);
+  private login = signal<string | undefined>(undefined);
 
-  constructor() { 
-/*     effect(() => {
-      console.info("Effect: ", this.user())
-  }) */
+  constructor(
+  ) { 
+
+  }
+
+  logInUser(user: UserRequestDto){
+    
+  }
+
+  logOutUser(){
+
   }
 
   getUser() {

@@ -1,5 +1,9 @@
-import { Component, Input, effect } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserDto } from '../../dto/userDto';
+import { LogInUserComponent } from '../../main/Modals/log-in-user/log-in-user.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UserRequestDto } from '../../dto/userRequestDto';
+import { UserManagementService } from '../../Services/Management/user-management.service';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +15,26 @@ import { UserDto } from '../../dto/userDto';
 export class HeaderComponent {
   @Input() userData : UserDto | undefined;
 
-  constructor(){
-    effect(() => {
+  constructor(
+    public dialog: MatDialog,
+    public userManagementService: UserManagementService
+  ){}
 
-    })
+  ShowLoginModal(){
+    let dialogRef = this.dialog.open(LogInUserComponent, {
+      height: '300px',
+      width: '30%',
+      position: {top: '10%', left: '35%'},
+      data: new UserRequestDto()
+    });
+
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if(result !== null){
+          this.userManagementService.logInUser(result);
+        }
+      }
+    )
   }
 
   RedirectToIKomfort(){
