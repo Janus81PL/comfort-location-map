@@ -15,10 +15,9 @@ export class RShopData{
         return new Promise<DictSklepyDto>((resolve, reject) => {
             this.iKomfortApiConnectionService.getShopData(idSklep).subscribe({
                 complete: () => {
-/*                     console.info("Dane sklepu pobrane."); */
+                    
                 },
                 next: (result: DictSklepyDto) => {
-                    console.info("Result: ", result)
                     resolve(result);
                 },
                 error: (error) => {

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { KomfortLocationMapDto } from '../../../dto/komfortLocationMapDto';
 import { FormsModule } from '@angular/forms';
 
@@ -19,11 +19,10 @@ export class EditStoreLocationComponent {
   ){}
 
   ngOnInit(): void{
-    console.info("KomfortLocationMapDto data: ", this.data);
-    console.info("MatDialogRef: ", this.dialogRef);
+
   }
 
   ChangeColor(): void {
-    console.info("data.color: ", this.data.color);
+
   }
 }

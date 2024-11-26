@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, effect, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+
 import { UserDto } from '../../dto/userDto';
 import { LogInUserComponent } from '../../main/Modals/log-in-user/log-in-user.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,7 +10,7 @@ import { UserManagementService } from '../../Services/Management/user-management
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -18,7 +20,11 @@ export class HeaderComponent {
   constructor(
     public dialog: MatDialog,
     public userManagementService: UserManagementService
-  ){}
+  ){
+    effect(() => {
+      this.userData = this.userManagementService.getUser();
+    })
+  }
 
   ShowLoginModal(){
     let dialogRef = this.dialog.open(LogInUserComponent, {
@@ -35,6 +41,10 @@ export class HeaderComponent {
         }
       }
     )
+  }
+
+  Logout(){
+    this.userManagementService.logOutUser();
   }
 
   RedirectToIKomfort(){

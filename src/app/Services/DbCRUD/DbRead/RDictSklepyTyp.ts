@@ -21,7 +21,7 @@ export class RDictSklepyTyp{
                     resolve(result);
                 },
                 error: (error) => {
-                    console.error("Nie udalo sie pobrać listy rodzajów sklepów.");
+                    console.error("Nie udalo sie pobrać listy rodzajów sklepów: ", error);
                     reject(error)
                 }
             })

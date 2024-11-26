@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AdminDto } from '../../dto/adminDto';
 
 @Component({
   selector: 'app-management',
@@ -8,5 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './management.component.css'
 })
 export class ManagementComponent {
+  public admins: AdminDto[] | undefined
 
+  constructor(){}
+
+  ngOnInit(): void {
+
+  }
 }

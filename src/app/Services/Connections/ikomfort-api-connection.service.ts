@@ -1,12 +1,15 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+//import { environment } from '../../../environments/environment.prod';
 import { environment } from '../../../environments/environment';
+
 import { KomfortLocationMapDto } from '../../dto/komfortLocationMapDto';
 import { DictSklepyDto } from '../../dto/dictSklepyDto';
 import { DictRegionDto } from '../../dto/dictRegionyDto';
 import { DictSklepyRodzajDto } from '../../dto/dictSklepyRodzajDto';
 import { DictSklepyTypDto } from '../../dto/dictSklepyTypDto';
+import { UserRequestDto } from '../../dto/userRequestDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,14 @@ import { DictSklepyTypDto } from '../../dto/dictSklepyTypDto';
 export class IkomfortApiConnectionService {
 
   constructor(private http: HttpClient) { }
+
+  getUserData(){
+    let login = 'pawelka';
+
+    return this.http.get<any>(
+      environment.pathAPI + 'API/KomfortLocationsMap/GetLoggedUser/' + login,
+    )
+  }
 
   //GET
   getShopLocations(){
@@ -56,5 +67,10 @@ export class IkomfortApiConnectionService {
   postShopLocations(location: KomfortLocationMapDto){
     return this.http
       .post(environment.pathAPI + 'API/KomfortLocationsMap/UpdateShopLocation/', location)
+  }
+
+  postUserLogin(user: UserRequestDto){
+    return this.http
+      .post(environment.pathAPI + 'API/KomfortLocationsMap/KomfortLocationLogin/', user)
   }
 }

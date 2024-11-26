@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <p>
+        Logowanie użytkownika
+    </p>
+</div>
+<mat-dialog-content>
+    <div class="row">
+        <div class="offset-2 col-3" style="align-self: center;"> Login </div>
+        <div class="col-5">
+            <input type="text" class="form-control-sm" (blur)="TestRun()" [(ngModel)]="data.login">
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-2 col-3" style="align-self: center;"> Hasło </div>
+        <div class="col-5">
+            <input type="password" class="form-control-sm" (blur)="TestRun()" [(ngModel)]="data.password">
+        </div>
+    </div>
+</mat-dialog-content>
+
+<div class="modal-footer">
+    <mat-dialog-actions  style="justify-content: space-around;">
+        <button class="w-25 btn btn-danger btn-sm" mat-button [mat-dialog-close]="null"> Anuluj </button>
+    
+        <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+        @if(correct){
+            <button class="w-25 btn btn-primary btn-sm" mat-button [mat-dialog-close]="data"> Zaloguj </button>
+        } 
+        @else {
+            <button class="w-25 btn btn-light btn-sm" mat-button title="Uzupełnij login i hasło!"> Zaloguj </button>
+        }      
+    </mat-dialog-actions>
+</div>

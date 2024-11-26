@@ -11,6 +11,7 @@ import { UShopLocations } from '../../../Services/DbCRUD/DbUpdate/UShopLocations
 
 import { MatTableDataSource } from '@angular/material/table';
 import { SpinnerManagementService } from '../../../Services/Management/spinner-management.service';
+import { UserManagementService } from '../../../Services/Management/user-management.service';
 
 @Component({
   selector: 'app-map',
@@ -21,17 +22,20 @@ import { SpinnerManagementService } from '../../../Services/Management/spinner-m
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class MapComponent {
+  private userData : UserDto | undefined;
+
   constructor(
     private shopsManagement: ShopsManagement,
     private getShopLocations: GetShopLocations,
     private uShopLocations: UShopLocations,
     private spinnerManagementService: SpinnerManagementService,
+    private userManagementService: UserManagementService,
 
     public dialog: MatDialog
   ) {
     effect(() => {
       this.spinnerManagementService.SpinnerOn();
-
+      this.userData = this.userManagementService.getUser();
       this.SortStoresWithAssignedLocationByParams(this.storeWithAssignedLocation, this.shopsManagement.getShopRequest())
         .then((r: KomfortLocationMapDto[]) => {
           this.storeWithAssignedLocationToDisplay = [] as KomfortLocationMapDto[]
@@ -115,12 +119,13 @@ export class MapComponent {
 
         this.GetStoresWithAssignedLocation(result)
           .then((r) => {
-
             this.storeWithAssignedLocation = r as KomfortLocationMapDto[];
-
             this.SortStoresWithAssignedLocationByParams(r as KomfortLocationMapDto[], this.shopsManagement.getShopRequest())
               .then((r) => {
-                this.storeWithAssignedLocationToDisplay = r as KomfortLocationMapDto[];
+                setTimeout(() => {
+                  this.storeWithAssignedLocationToDisplay = r as KomfortLocationMapDto[];
+                  this.spinnerManagementService.SpinnerOff()
+                }, 500);
               })
               .catch((e) => {
                 console.error(e);
@@ -140,14 +145,15 @@ export class MapComponent {
 
       let storeWithAssignedLocationToDisplay = [] as KomfortLocationMapDto[];
 
-      console.info("fullStoresList: ", fullStoresList.length);
-      console.info("request: ", request);
-
       if(fullStoresList != undefined){
         try{
           if(request != undefined){
-            if(request.idRegion != 0){
-              storeWithAssignedLocationToDisplay = fullStoresList.filter(a => a.idRegion == request.idRegion)
+            if(request.idRegion != 0 || request.idDictSklepyRodzaj != 0 || request.idDictSklepyTyp){
+              storeWithAssignedLocationToDisplay = fullStoresList.filter(a =>
+                ( request.idRegion == 0 || a.idRegion == request.idRegion) &&
+                ( request.idDictSklepyRodzaj == 0 || a.idDictSklepyRodzaj == request.idDictSklepyRodzaj) &&
+                ( request.idDictSklepyTyp == 0 || a.idDictSklepyTyp == request.idDictSklepyTyp )
+                )
                 .map(a => ({idLocation: a.idLocation
                   , idSklep: a.idSklep
                   ,idRegion: a.idRegion
@@ -184,26 +190,37 @@ export class MapComponent {
   onMouseMove(event: MouseEvent){
     if(this.selectedStore != undefined){
       this.selectedStore.cx = event.clientX;
-      this.selectedStore.cy = event.clientY - 53;
+      this.selectedStore.cy = event.clientY - 54;
     }
   }
 
+  IsUserLogged() : boolean{
+    if(this.userData != undefined)
+      return true
+
+    return false;
+  }
+
   onMouseClick(event: MouseEvent, idSklep: number) : void {
-    if(this.selectedStore == undefined) {
-      this.selectedStore = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
-      if(this.selectedStore === undefined)
-      {
-        this.selectedStore = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
+    if(this.IsUserLogged()){
+      if(this.selectedStore == undefined) {
+        this.selectedStore = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
+        if(this.selectedStore === undefined)
+        {
+          this.selectedStore = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
+        }
+      } else {
+        this.uShopLocations.Post(this.selectedStore)
+          .then((r: any) => {
+            this.selectedStore = undefined
+            this.ReloadShops();
+          })
+          .catch((e: any) => {
+            alert("Coś poszło nie tak: " + e.toString())
+          })
       }
     } else {
-      this.uShopLocations.Post(this.selectedStore)
-        .then((r: any) => {
-          this.selectedStore = undefined
-          this.ReloadShops();
-        })
-        .catch((e: any) => {
-          alert("Coś poszło nie tak: " + e.toString())
-        })
+
     }
   }
 
@@ -211,33 +228,37 @@ export class MapComponent {
     event.preventDefault();
     let data = undefined;
 
-    data = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
+    if(this.IsUserLogged()){
+      data = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
 
-    if(data === undefined)
-      data = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
-
-    if(data !== undefined) {
-      let dialogRef = this.dialog.open(EditStoreLocationComponent, {
-        height: '300px',
-        width: '600px',
-        position: {right: '20px'},
-        data: data
-      });
-
-      dialogRef.afterClosed().subscribe(
-        result => {
-          if(result !== null){
-            this.uShopLocations.Post(result)
-            .then((r: any) => {
-              this.selectedStore = undefined
-              this.ReloadShops();
-            })
-            .catch((e: any) => {
-              alert("Coś poszło nie tak: " + e.toString())
-            })
+      if(data === undefined)
+        data = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
+  
+      if(data !== undefined) {
+        let dialogRef = this.dialog.open(EditStoreLocationComponent, {
+          height: '300px',
+          width: '600px',
+          position: {right: '20px'},
+          data: data
+        });
+  
+        dialogRef.afterClosed().subscribe(
+          result => {
+            if(result !== null){
+              this.uShopLocations.Post(result)
+              .then((r: any) => {
+                this.selectedStore = undefined
+                this.ReloadShops();
+              })
+              .catch((e: any) => {
+                alert("Coś poszło nie tak: " + e.toString())
+              })
+            }
           }
-        }
-      )
+        )
+      }
+    } else {
+
     }
   }
 }

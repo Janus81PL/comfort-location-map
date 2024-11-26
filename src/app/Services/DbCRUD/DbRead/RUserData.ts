@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserDto } from '../../../dto/userDto';
+import { IkomfortApiConnectionService } from '../../Connections/ikomfort-api-connection.service';
 import { IKomfortConnectionService } from '../../Connections/ikomfort-connection.service';
 
 @Injectable({
@@ -8,28 +9,32 @@ import { IKomfortConnectionService } from '../../Connections/ikomfort-connection
 
 export class GetUserData{
     constructor(
-        private iKomfortConnection: IKomfortConnectionService
+        private ikomfortApiConnectionService: IkomfortApiConnectionService,
+        private iKomfortConnectionService: IKomfortConnectionService
     ){}
 
     public Get(){
       return new Promise<UserDto>((resolve, reject) => {
-        this.iKomfortConnection.getUserData().subscribe({
+        this.ikomfortApiConnectionService.getUserData().subscribe({
           complete: () => {
 /*             console.info("GetUserData.Get(): Dane zalogowanego użytkownika pobrane.") */
           },
           next: (result: any) => {
             resolve(result);
           },
-          error: (error: UserDto) => {
-            console.error("GetUserData.Get(): Nie udało się pobrać danych zalogowanego użytkownika!");
+          error: (error: any) => {
+            console.error("GetUserData.Get(): Nie udało się pobrać danych zalogowanego użytkownika!: ", error);
 
             const user :UserDto = {
-              idPracownika: 59,
-              login: 'pawelka',
+              idPracownika: 0,
+              login: '',
               imie: 'Freddy',
               nazwisko: 'Mercury',
-              rola: 5,
-              aktywny: 1
+              rola: 0,
+              email: '',
+              isKomfortLocationsAdmin: false,
+              token: '',
+              aktywny: 0
             }
     
             reject(user);

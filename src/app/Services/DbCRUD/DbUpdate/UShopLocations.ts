@@ -20,7 +20,7 @@ export class UShopLocations{
 
                 },
                 next: (result: any) => {
-                    let snackBarRef = this.snackBar.open("Zmiana zapisana.", "Yes!", {
+                    let snackBarRef = this.snackBar.open("Zmiana zapisana.", "", {
                         duration: 1500,                 
                         horizontalPosition: 'right',
                         verticalPosition: 'top',
@@ -29,12 +29,13 @@ export class UShopLocations{
                     resolve(result);
                 },
                 error: (error) => {
-                    let snackBarRef = this.snackBar.open("Bład podczas zapisu!", "", {
+                    let snackBarRef = this.snackBar.open("Błąd podczas logowania.", "", {
                         duration: 1500,                 
                         horizontalPosition: 'right',
                         verticalPosition: 'top',
                         panelClass: 'pop-up-fail'
                     })
+
                     resolve(error);
                 }
             })
