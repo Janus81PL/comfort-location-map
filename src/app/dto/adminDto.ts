@@ -1,9 +1,9 @@
 export class AdminDto {
     constructor(
-        idDictSklepyLocationAdmin: number = 0,
-        idPracownika: number = 0,
-        nazwisko: string = '',
-        imie: string = '',
-        active: boolean = true
+        public idDictSklepyLocationAdmin: number = 0,
+        public idPracownika: number = 0,
+        public nazwisko: string = '',
+        public imie: string = '',
+        public active: boolean = true
     ){}
 }

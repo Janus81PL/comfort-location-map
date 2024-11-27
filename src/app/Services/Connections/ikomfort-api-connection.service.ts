@@ -10,6 +10,7 @@ import { DictRegionDto } from '../../dto/dictRegionyDto';
 import { DictSklepyRodzajDto } from '../../dto/dictSklepyRodzajDto';
 import { DictSklepyTypDto } from '../../dto/dictSklepyTypDto';
 import { UserRequestDto } from '../../dto/userRequestDto';
+import { AdminDto } from '../../dto/adminDto';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,13 @@ export class IkomfortApiConnectionService {
       )
   }
 
+  getDictSklepyLocationAdmins() {
+    return this.http
+      .get<AdminDto[]>(
+        environment.pathAPI + 'API/KomfortLocationsMap/GetDictSklepyLocationAdmins/'
+      )
+  }
+
   //POST
   postShopLocations(location: KomfortLocationMapDto){
     return this.http
@@ -72,5 +80,10 @@ export class IkomfortApiConnectionService {
   postUserLogin(user: UserRequestDto){
     return this.http
       .post(environment.pathAPI + 'API/KomfortLocationsMap/KomfortLocationLogin/', user)
+  }
+
+  postDictSklepyLocationAdmin(admin: AdminDto){
+    return this.http
+      .post(environment.pathAPI + 'API/KomfortLocationsMap/UpdateDictSklepyLocationAdmin/', admin)
   }
 }

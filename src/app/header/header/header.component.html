@@ -14,9 +14,16 @@
 
         @if(userData != undefined)
         {
-          <li class="nav-item">
-            <a class="nav-link" href="/management">Zarządzanie</a>
-          </li>
+          @if(userData.isKomfortLocationsAdmin){
+            <li class="nav-item">
+              <a class="nav-link" href="/management">Zarządzanie</a>
+            </li>
+          }
+          @else {
+            <li class="nav-item">
+              <a class="nav-link" href="/location-map" style="color: lightgray">Zarządzanie</a>
+            </li>
+          }
         }
       </ul>
       <form class="d-flex">

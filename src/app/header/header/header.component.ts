@@ -6,6 +6,7 @@ import { LogInUserComponent } from '../../main/Modals/log-in-user/log-in-user.co
 import { MatDialog } from '@angular/material/dialog';
 import { UserRequestDto } from '../../dto/userRequestDto';
 import { UserManagementService } from '../../Services/Management/user-management.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,8 @@ export class HeaderComponent {
 
   constructor(
     public dialog: MatDialog,
-    public userManagementService: UserManagementService
+    public userManagementService: UserManagementService,
+    private router: Router
   ){
     effect(() => {
       this.userData = this.userManagementService.getUser();
@@ -45,6 +47,7 @@ export class HeaderComponent {
 
   Logout(){
     this.userManagementService.logOutUser();
+    this.router.navigate(['/location-map']);
   }
 
   RedirectToIKomfort(){
