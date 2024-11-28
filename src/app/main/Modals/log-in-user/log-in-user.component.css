@@ -1,22 +1,3 @@
 .row{
     margin: 0.25rem;
 }
-
-.modal-header{
-    text-align: center;
-    height: 3.5rem;
-    background-color: lightgray;
-}
-    .modal-header p {
-        width: 100%;
-        text-align: center;
-        padding-top: 1.5rem;
-        font-weight: bold;
-    }
-
-.modal-footer {
-    text-align: center;
-    height: 3.5rem;
-    background-color: lightgray;
-    display: inline-block;
-}

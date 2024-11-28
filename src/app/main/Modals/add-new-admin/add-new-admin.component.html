@@ -1,1 +1,35 @@
-<p>add-new-admin works!</p>
+<div class="modal-header">
+    <p>
+        Dodanie nowego administratora
+    </p>
+</div>
+<mat-dialog-content>
+    <div class="row mt-1">
+        <div class="offset 1 col-5" style="text-align: center; align-self: center;"> Administrator </div>
+        <div class="col-6">
+            <select
+            class="form-control form-control-sm mt-1"
+            [(ngModel)]="newAdmin.idPracownika"
+            (ngModelChange)="EmployeeChange()">
+            <option :value="0"> ...wybierz... </option>
+                @for(employee of employees; track employee.idPracownika){
+                    <option [value]="employee.idPracownika"> {{employee.nazwisko}} {{employee.imie}} </option>
+                }
+            </select>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<div class="modal-footer">
+    <mat-dialog-actions  style="justify-content: space-around;">
+        <button class="w-25 btn btn-danger btn-sm" mat-button [mat-dialog-close]="null" title="Anuluj"> Anuluj </button>
+    
+<!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+        @if(IsAdminSelected()){
+            <button class="w-25 btn btn-primary btn-sm" mat-button [mat-dialog-close]="data" title="Dodaj nowego administratora."> Zapisz </button>
+        } 
+        @else {
+            <button class="w-25 btn btn-light btn-sm" mat-button title="Wybierz osobę do roli administratora."> Zapisz </button>
+        }       
+    </mat-dialog-actions>
+</div>

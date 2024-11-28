@@ -27,3 +27,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; min-width: 
     background: rgba(255, 255, 255, 0.8); /* Opcjonalne, dla efektu rozjaśnienia */
     z-index: 1000;
 }
+
+/* Modal */
+.mat-mdc-dialog-container .mdc-dialog__surface{
+    overflow: hidden;
+}
+
+.modal-header{
+    text-align: center;
+    height: 3rem;
+    background-color: lightgray;
+}
+    .modal-header p {
+        width: 100%;
+        text-align: center;
+        padding-top: 1.25rem;
+        font-weight: bold;
+    }
+
+.modal-footer {
+    text-align: center;
+    height: 3rem;
+    background-color: lightgray;
+    display: inline-block;
+}
