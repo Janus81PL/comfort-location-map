@@ -14,7 +14,6 @@ import { RPracownicy } from '../../../Services/DbCRUD/DbRead/RPracownicy';
 })
 export class AddNewAdminComponent {
   public employees: PracownikDto[] | undefined
-  public newAdmin: NewAdminDto = new NewAdminDto()
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: NewAdminDto,
@@ -27,11 +26,11 @@ export class AddNewAdminComponent {
   }
 
   EmployeeChange(): void{
-    console.info("newAdmin: ", this.newAdmin);
+
   }
 
   IsAdminSelected(): boolean{
-    if(this.newAdmin.idPracownika != 0)
+    if(this.data.idPracownika != 0)
       return true
 
     return false;

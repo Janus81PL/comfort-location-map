@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 import { UserDto } from '../../dto/userDto';
 import { LogInUserComponent } from '../../main/Modals/log-in-user/log-in-user.component';
+import { AppInfoComponent } from '../../main/Modals/app-info/app-info.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserRequestDto } from '../../dto/userRequestDto';
 import { UserManagementService } from '../../Services/Management/user-management.service';
@@ -26,6 +27,19 @@ export class HeaderComponent {
     effect(() => {
       this.userData = this.userManagementService.getUser();
     })
+  }
+
+  ShowInfoModal(){
+    let dialogRef = this.dialog.open(AppInfoComponent, {
+      height: '300px',
+      width: '30%',
+      position: {top: '10%', left: '35%'},
+      data: null
+    });
+
+    dialogRef.afterClosed().subscribe(
+
+    )
   }
 
   ShowLoginModal(){

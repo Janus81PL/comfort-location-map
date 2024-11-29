@@ -189,13 +189,13 @@ export class MapComponent {
 
   onMouseMove(event: MouseEvent){
     if(this.selectedStore != undefined){
-      this.selectedStore.cx = event.clientX;
-      this.selectedStore.cy = event.clientY - 54;
+      this.selectedStore.cx = Math.trunc(event.clientX);
+      this.selectedStore.cy = Math.trunc(event.clientY) - 54;
     }
   }
 
   IsUserLogged() : boolean{
-    if(this.userData != undefined)
+    if(this.userData != undefined && this.userData.isKomfortLocationsAdmin)
       return true
 
     return false;
@@ -205,10 +205,12 @@ export class MapComponent {
     if(this.IsUserLogged()){
       if(this.selectedStore == undefined) {
         this.selectedStore = this.storeWithoutAssignedLocation.find(a => a.idSklep == idSklep)
+
         if(this.selectedStore === undefined)
         {
           this.selectedStore = this.storeWithAssignedLocation.find(a => a.idSklep == idSklep);
         }
+
       } else {
         this.uShopLocations.Post(this.selectedStore)
           .then((r: any) => {

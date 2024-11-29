@@ -14,6 +14,9 @@ export class UShopLocations{
     ){}
 
     public Post(location: KomfortLocationMapDto){
+
+        console.info("location: ", location);
+
         return new Promise((resolve, reject) => {
             this.iKomfortApiConnectionService.postShopLocations(location).subscribe({
                 complete: () => {
@@ -29,7 +32,7 @@ export class UShopLocations{
                     resolve(result);
                 },
                 error: (error) => {
-                    let snackBarRef = this.snackBar.open("Błąd podczas logowania.", "", {
+                    let snackBarRef = this.snackBar.open("Błąd podczas aktualizacji pozycji sklepu.", "", {
                         duration: 1500,                 
                         horizontalPosition: 'right',
                         verticalPosition: 'top',

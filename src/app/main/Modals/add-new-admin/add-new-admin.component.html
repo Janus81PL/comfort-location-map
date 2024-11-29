@@ -9,7 +9,7 @@
         <div class="col-6">
             <select
             class="form-control form-control-sm mt-1"
-            [(ngModel)]="newAdmin.idPracownika"
+            [(ngModel)]="data.idPracownika"
             (ngModelChange)="EmployeeChange()">
             <option :value="0"> ...wybierz... </option>
                 @for(employee of employees; track employee.idPracownika){
